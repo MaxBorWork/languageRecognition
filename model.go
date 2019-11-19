@@ -1,9 +1,17 @@
 package main
 
 type (
-	Ngramm struct {
+	Ngram struct {
 		Name      string
 		Frequency float32
+		PositionDiffer int
+	}
+
+	DocsCompare struct {
+		TestDocTitle string
+		DocTitle     string
+		Ngrams       []Ngram
+		Distance     int
 	}
 
 	TestDocument struct {
@@ -11,13 +19,14 @@ type (
 		Language string
 		Link     string
 		Text     string
-		Ngramms  []Ngramm
+		Ngramms  []Ngram
 	}
 
 	Document struct {
 		Title     string
 		Link      string
+		Language string
 		ShortText string
-		Ngrams    []Ngramm
+		Ngrams    []Ngram
 	}
 )

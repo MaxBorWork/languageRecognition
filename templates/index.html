@@ -6,22 +6,57 @@
 </head>
 <body>
     <div class="container choose-file-container">
-        <span>Выберите документ из списка:</span>
-        <form method="POST" action="/form">
-            <input type="radio" name="doc" value="chess_fr">Échecs (франц.)<Br>
-            <input type="radio" name="doc" value="saint_martin_fr">Saint-Martin-sur-Écaillon (франц.)<Br>
-            <input type="radio" name="doc" value="santos_fr">Alberto Santos-Dumont (франц.)<Br>
-            <input type="radio" name="doc" value="chretien_fr">Albert Chrétien (франц.)<Br>
-            <input type="radio" name="doc" value="soprano_fr">Mezzo-soprano (франц.)<Br>
-            <br />
-            <input type="radio" name="doc" value="futurama_en">Futurama (англ.)<Br>
-            <input type="radio" name="doc" value="weavers_needle_en">Weavers Needle (англ.)<Br>
-            <input type="radio" name="doc" value="twisted_sister_en">Twisted Sister (англ.)<Br>
-            <input type="radio" name="doc" value="new_york_en">New York City (англ.)<Br>
-            <input type="radio" name="doc" value="Buffalo_Oklahoma_en">Buffalo, Oklahoma (англ.)<Br>
-
-            <input type="submit" value="Выполнить">
-        </form>
+        <div class="file-element">
+            <label>Échecs (франц.)</label>
+            <a href="/chess_fr/ngram" class="file-link">N-gram</a>
+            <a href="/chess_fr/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Saint-Martin-sur-Écaillon (франц.)</label>
+            <a href="/saint_martin_fr/ngram" class="file-link">N-gram</a>
+            <a href="/saint_martin_fr/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Alberto Santos-Dumont (франц.)</label>
+            <a href="/santos_fr/ngram" class="file-link">N-gram</a>
+            <a href="/santos_fr/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Albert Chrétien (франц.)</label>
+            <a href="/chretien_fr/ngram" class="file-link">N-gram</a>
+            <a href="/chretien_fr/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Mezzo-soprano (франц.)</label>
+            <a href="/soprano_fr/ngram" class="file-link">N-gram</a>
+            <a href="/soprano_fr/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <br />
+        <div class="file-element">
+            <label>Futurama (англ.)</label>
+            <a href="/futurama_en/ngram" class="file-link">N-gram</a>
+            <a href="/futurama_en/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Weavers Needle (англ.)</label>
+            <a href="/weavers_needle_en/ngram" class="file-link">N-gram</a>
+            <a href="/weavers_needle_en/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Twisted Sister (англ.)</label>
+            <a href="/twisted_sister_en/ngram" class="file-link">N-gram</a>
+            <a href="/twisted_sister_en/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>New York City (англ.)</label>
+            <a href="/new_york_en/ngram" class="file-link">N-gram</a>
+            <a href="/new_york_en/alphabet" class="file-link">Alphabet</a>
+        </div>
+        <div class="file-element">
+            <label>Buffalo, Oklahoma (англ.)</label>
+            <a href="/Buffalo_Oklahoma_en/ngram" class="file-link">N-gram</a>
+            <a href="/Buffalo_Oklahoma_en/alphabet" class="file-link">Alphabet</a>
+        </div>
     </div>
 </body>
 </html>
