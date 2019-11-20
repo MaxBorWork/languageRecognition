@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"sort"
 )
 
 const (
@@ -10,14 +9,13 @@ const (
 	NgrammSize = 3
 )
 
-var langColOfWords int
 var testDocs []TestDocument
 var docsMap map[string]Document
 
 func init() {
-	colOfNgramm = make(map[string]int)
-
+	colOfNgrams = make(map[string]int)
 	prepareNgrams("English")
+	prepareNgrams("French")
 
 	docsMap = make(map[string]Document)
 
@@ -64,10 +62,10 @@ func init() {
 		ShortText: "",
 	}
 
-	docsMap["weavers_needle_en"] = Document{
-		Title:     "Weavers_Needle",
+	docsMap["jonny_quest_en"] = Document{
+		Title:     "Jonny_Quest",
 		Language:  "en",
-		Link:      "https://en.wikipedia.org/wiki/Weavers_Needle",
+		Link:      "https://en.wikipedia.org/wiki/Jonny_Quest",
 		ShortText: "",
 	}
 
@@ -94,19 +92,19 @@ func init() {
 }
 
 func main() {
-	//router := route()
-	//router.LoadHTMLGlob("templates/*")
-	//err := router.Run(":" + PORT)
-	//if err != nil {
-	//	panic(err)
-	//}
+	router := route()
+	router.LoadHTMLGlob("templates/*")
+	err := router.Run(":" + PORT)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func route() *gin.Engine {
 	route := gin.Default()
 	route.GET("/", Index)
-	route.GET("/{title}/ngram", NgramMethod)
-	route.GET("/{title}/alphabet", AlphabetMethod)
+	route.GET("/ngram/:title", NgramMethod)
+	route.GET("/alphabet/:title", AlphabetMethod)
 	return route
 }
 
@@ -125,15 +123,7 @@ func parseTestDoc(languange, title string) {
 		panic(err)
 	}
 
-	wordsArr := splitText(text)
-	langColOfWords = langColOfWords + len(wordsArr)
-
-	for _, word := range wordsArr {
-		word = clearWord(word)
-		wordToNgrams(word)
-	}
-
-	ngrams := createNgramsArrForDocument()
+	ngrams := textToNgrams(text)
 
 	testDocs = append(testDocs, TestDocument{
 		Title:    title,
@@ -142,19 +132,9 @@ func parseTestDoc(languange, title string) {
 	})
 }
 
-func createNgramsArrForDocument() []Ngram {
-	var ngrams []Ngram
-	for ngramName, col := range colOfNgramm {
-		ngram := Ngram{
-			Name:      ngramName,
-			Frequency: float32(col) / float32(langColOfWords),
-		}
-		ngrams = append(ngrams, ngram)
+func Abs(x int) int {
+	if x < 0 {
+		return -x
 	}
-
-	sort.Slice(ngrams, func(i, j int) bool {
-		return ngrams[i].Frequency > ngrams[j].Frequency
-	})
-
-	return ngrams
+	return x
 }

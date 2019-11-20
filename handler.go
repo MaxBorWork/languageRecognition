@@ -17,12 +17,18 @@ func NgramMethod(c *gin.Context) {
 	url := mediawiki.CreateUrl(document.Language, document.Title)
 	text = mediawiki.MediaWikiRequest(url)
 	document.ShortText = text
-	language := processDocument(document)
+	document.Ngrams = textToNgrams(text)
+	resultsArr := processDocument(&document)
+
+	comparison := getComparisonWithMinimalDistance(resultsArr)
+	language := getDocLanguage(comparison.TestDocTitle)
 	if language != "" {
 		c.HTML(http.StatusOK, "result.html", gin.H{
 			"Title" : document.Title,
 			"Link": document.Link,
 			"Language": language,
+			"Ngrams": comparison.Ngrams,
+			"ResultsArr": resultsArr,
 		})
 
 		return

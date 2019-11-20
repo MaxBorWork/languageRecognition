@@ -66,6 +66,10 @@
             text-decoration: none;
             color: black;
         }
+
+        .results-table {
+            margin: 60px 0;
+        }
     </style>
 </head>
 <body>
@@ -78,25 +82,47 @@
         </ul>
     </div>
     <div class="result">
-        <p>Результат разбора текста <a href="{{ .Link }}" target="_blank">{{ .Title }}</a>
-        <table>
+        <p>Для документа <a href="{{ .Link }}" target="_blank">{{ .Title }}</a> определен язык {{ .Language }}</p>
+
+        <table class="results-table">
             <thead>
             <tr>
-                <td>Основа</td>
+                <td>Название</td>
                 <td>Язык</td>
-                <td>Кол-во</td>
+                <td>Метрика</td>
             </tr>
             </thead>
             <tbody>
-            {{range .Words }}
+            {{range .ResultsArr }}
+                <tr>
+                    <td>{{ .TestDocTitle }}</td>
+                    <td>{{ .TestDocLanguage }}</td>
+                    <td>{{ .Distance }}</td>
+                </tr>
+            {{ end }}
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
             <tr>
-                <td>{{ .Base }}</td>
-                <td>{{ .Language }}</td>
-                <td>{{ .Amount }}</td>
+                <td>Имя</td>
+                <td>Частота</td>
+                <td>Разница позиций</td>
+            </tr>
+            </thead>
+            <tbody>
+            {{range .Ngrams }}
+            <tr>
+                <td>{{ .Name }}</td>
+                <td>{{ .Frequency }}</td>
+                <td>{{ .PositionDiffer }}</td>
             </tr>
             {{ end }}
             </tbody>
         </table>
+
+
     </div>
 </body>
 </html>

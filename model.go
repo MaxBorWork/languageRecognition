@@ -9,6 +9,7 @@ type (
 
 	DocsCompare struct {
 		TestDocTitle string
+		TestDocLanguage string
 		DocTitle     string
 		Ngrams       []Ngram
 		Distance     int
