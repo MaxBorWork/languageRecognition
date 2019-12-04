@@ -54,6 +54,7 @@ func clearWord(word string) string {
 	word = strings.Replace(word, "—", "", -1)
 	word = strings.Replace(word, "‘", "", -1)
 	word = strings.Replace(word, "’", "", -1)
+	word = strings.Replace(word, "'", "", -1)
 
 	re := regexp.MustCompile(`[0-9]`)
 	word = re.ReplaceAllString(word, "")

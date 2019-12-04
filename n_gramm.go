@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 )
 
 var colOfNgrams map[string]int
+var colOfLetters map[string]int
 
 func wordToNgrams(word string) {
 	wordArr := strings.Split(word, "")
@@ -14,7 +16,19 @@ func wordToNgrams(word string) {
 	}
 
 	for i := 0; i <= len(wordArr) - NgrammSize; i++ {
-		ngram := word[i:i+NgrammSize]
+		var ngram string
+		if strings.Contains(word, "é") || strings.Contains(word, "è") {
+			ngram = word[i:i+NgrammSize+1]
+			runes := []rune(ngram)
+			if runes[0] == rune(65533) {
+				ngram = string(runes[1:])
+			} else if runes[len(runes)-1] == rune(65533) {
+				ngram = string(runes[:len(runes)-1])
+			}
+		} else {
+			ngram = word[i:i+NgrammSize]
+		}
+
 		if colOfNgrams[ngram] != 0 {
 			colOfNgrams[ngram] = colOfNgrams[ngram]+1
 			continue
@@ -24,27 +38,35 @@ func wordToNgrams(word string) {
 	}
 }
 
-func processDocument(document *Document) []DocsCompare {
-	var resultsArr []DocsCompare
+func processDocumentNgram(document *Document) []DocsNgramCompare {
+	var resultsArr []DocsNgramCompare
 	for _, testDoc := range testDocs {
-		result := compareDocs(*document, testDoc)
+		result := compareDocsNgrams(*document, testDoc)
 		resultsArr = append(resultsArr, result)
 	}
 
 	return resultsArr
 }
 
-func compareDocs(doc Document, testDoc TestDocument) DocsCompare {
+func compareDocsNgrams(doc Document, testDoc TestDocument) DocsNgramCompare {
 	var ngramsWithDifference []Ngram
 	var distance int
+	testDocNgrams := testDoc.Ngramms[:len(doc.Ngrams)-1]
 	for i, ngram := range doc.Ngrams {
 		ngramWithDiff := Ngram{
 			Name:           ngram.Name,
 			Frequency:      ngram.Frequency,
 		}
 
-		for j, testNgram := range testDoc.Ngramms {
+		if ngram.Name == "ièc" {
+			fmt.Println("FOUND")
+		}
+
+		for j, testNgram := range testDocNgrams {
 			if testNgram.Name == ngram.Name {
+				if ngram.Name == "ièc" {
+					fmt.Println("FOUND")
+				}
 				ngramWithDiff.PositionDiffer = Abs(i-j)
 				break
 			}
@@ -58,7 +80,7 @@ func compareDocs(doc Document, testDoc TestDocument) DocsCompare {
 		distance += ngramWithDiff.PositionDiffer
 	}
 
-	result := DocsCompare{
+	result := DocsNgramCompare{
 		TestDocTitle:	 	testDoc.Title,
 		TestDocLanguage:	testDoc.Language,
 		DocTitle:       	doc.Title,
@@ -68,7 +90,7 @@ func compareDocs(doc Document, testDoc TestDocument) DocsCompare {
 	return result
 }
 
-func getComparisonWithMinimalDistance(resultsArr []DocsCompare) DocsCompare {
+func getComparisonWithMinimalDistance(resultsArr []DocsNgramCompare) DocsNgramCompare {
 	sort.Slice(resultsArr, func(i, j int) bool {
 		return resultsArr[i].Distance < resultsArr[j].Distance
 	})

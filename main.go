@@ -105,6 +105,8 @@ func route() *gin.Engine {
 	route.GET("/", Index)
 	route.GET("/ngram/:title", NgramMethod)
 	route.GET("/alphabet/:title", AlphabetMethod)
+	//route.GET("/save", Save)
+	route.GET("/file/:title", File)
 	return route
 }
 
@@ -124,11 +126,13 @@ func parseTestDoc(languange, title string) {
 	}
 
 	ngrams := textToNgrams(text)
+	letters := textToLetters(text)
 
 	testDocs = append(testDocs, TestDocument{
 		Title:    title,
 		Language: languange,
 		Ngramms:  ngrams,
+		Alphabet: letters,
 	})
 }
 
